@@ -35,12 +35,19 @@ export const signup = async (req, res, next) => {
       expiresIn: "7d",
     });
 
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false, // 🔴 keep false in dev
+    //   sameSite: "none", // 🔴 use lax for dev
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // 🔴 keep false in dev
-      sameSite: "none", // 🔴 use lax for dev
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
 
     user.password = undefined;
 
@@ -93,13 +100,18 @@ export const login = async (req, res, next) => {
       expiresIn: "7d",
     });
 
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "lax", // ✅ FIX
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax", // ✅ FIX
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
     user.password = undefined;
     console.log(token);
     res.status(201).json({
